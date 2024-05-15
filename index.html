@@ -16,6 +16,14 @@
     width: 100%;
     position: relative;
   }
+  .logo-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 200px;
+    max-height: 70px;
+  }
   .menu-icon {
     background-color: transparent;
     position: absolute;
@@ -56,10 +64,12 @@
   .show {
     display: block !important;
   }
+
 </style>
 </head>
 <body>
 <div class="red-bar">
+  <a href="index.html"><img src="Resources/Logo.jpg" alt="Home" class="logo-icon"></a>
   <div class="menu-icon" id="menu-icon">
     <img src="Resources\Clawths.png" alt="Menu">
   </div>
