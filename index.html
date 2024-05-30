@@ -8,13 +8,17 @@
   body {
     margin: 0;
     padding: 0;
+    padding-top: 70px;
     background-color: #b81010;
   }
-  .red-bar {
+  .top-bar {
     background-color: black;
     height: 70px; /* Adjust height as needed */
     width: 100%;
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
   }
   .logo-icon {
     position: absolute;
@@ -61,6 +65,72 @@
     width: 15px; /* Set the width of the image */
     height: auto; /* Maintain aspect ratio */
   }
+  .black-box {
+    background-color: black;
+    padding: 20px;
+    position: absolute;
+    top: 10px; /* Space below the red bar */
+    left: 0;
+    width: 100%;
+    height: calc(100% - 100px); /* Fill remaining  height */
+    overflow: hidden;
+    box-sizing: border-box;
+    position: relative; /* Required for absolute positioning of dots */
+  }
+  .pane-container {
+    display: flex;
+    transition: transform 0.5s ease; /* Smooth sliding transition */
+  }
+  .pane {
+    flex: 0 0 100%; /* Each pane takes up the full width */
+    overflow: hidden;
+    transition: transform 0.5s ease; /* Smooth sliding transition */
+  }
+  .pane img,
+  .pane video {
+    width: 100%;
+    max-height: 300px;
+    height: auto;
+    margin: auto;
+    display: block;
+  }
+  .navigation-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+  }
+  .dot {
+    width: 10px;
+    height: 10px;
+    background-color: #b81010;
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  .dot.active {
+    background-color: black;
+  }
+  
+  .image-grid
+  {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid */
+    grid-gap: 10px; /* Adjust the gap between images */
+    padding: 20px; /* Add padding to the grid */
+  }
+  .image-item {
+    background-color: #333; /* Dark gray background for images */
+    border-radius: 5px; /* Rounded corners */
+    overflow: hidden; /* Hide overflow */
+  }
+  .image-item img {
+    width: 100%; /* Make images fill the container */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Remove any extra spacing */
+  }
+  
   .show {
     display: block !important;
   }
@@ -68,7 +138,7 @@
 </style>
 </head>
 <body>
-<div class="red-bar">
+<div class="top-bar">
   <a href="index.html"><img src="Resources/Logo.jpg" alt="Home" class="logo-icon"></a>
   <div class="menu-icon" id="menu-icon">
     <img src="Resources\Clawths.png" alt="Menu">
@@ -81,9 +151,58 @@
     </ul>
   </div>
 </div>
-<!-- Rest of your website content goes here -->
+<div class="black-box">
+  <div class="pane-container">
+        <div class="pane">
+      <img src="Resources/Logo.jpg" alt="Image 2">
+    </div>
+  <div class="pane">
+    <img src="Resources/17.jpeg" alt="Image 3">
+  </div>
+  </div>
+  <div class="navigation-dots">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+</div>
 
+<!--<div class="image-grid">
+  <div class="image-item">
+    <img src="Resources/Clawths.png" alt="Image 1">
+  </div>
+  <div class="image-item">
+    <img src="Resources/Logo.jpg" alt="Image 2">
+  </div>
+-->
+  <!-- Add more image items as needed -->
+</div>
+<!-- Rest of your website content goes here -->
+<!-- <div id="countdown"></div> -->
 <script>
+  var targetDate = new Date(2024, 7,17,0,0,0);
+  function updateCountdown() {
+    var currentDate = new Date();
+    var timeDifference = targetDate - currentDate;
+    
+    // Calculate remaining time
+    var days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+    
+    // Format the time
+    var countdownText = "Countdown: " + days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+    
+    // Update the countdown display
+    document.getElementById("countdown").innerText = countdownText;
+  }
+  
+  // Update countdown every second
+  setInterval(updateCountdown, 1000);
+  
+  // Initial call to update countdown
+  updateCountdown();
   document.addEventListener("DOMContentLoaded", function() {
     var menuIcon = document.getElementById("menu-icon");
     var dropdownMenu = document.getElementById("dropdown-menu");
@@ -99,7 +218,222 @@
       }
     });
   });
-</script>
 
+// Sliding panes functionality with navigation dots
+var paneContainer = document.querySelector('.pane-container');
+var dots = document.querySelectorAll('.dot');
+var totalPanes = document.querySelectorAll('.pane').length;
+var currentIndex = 0;
+
+function slideTo(index) {
+  currentIndex = index;
+  var percentage = -100 * currentIndex + '%';
+  paneContainer.style.transform = 'translateX(' + percentage + ')';
+  updateActiveDot();
+}
+
+function updateActiveDot() {
+  dots.forEach(function(dot, index) {
+    dot.classList.toggle('active', index === currentIndex);
+  });
+}
+
+// Click event listener for dots
+dots.forEach(function(dot, index) {
+  dot.addEventListener('click', function() {
+    slideTo(index);
+  });
+});
+
+// Automatically slide panes every 5 seconds
+setInterval(function() {
+  currentIndex = (currentIndex + 1) % totalPanes;
+  slideTo(currentIndex);
+}, 5000);
+
+</script>
+<!--
+Chat history
+ChatGPT
+New chat
+Previous 7 Days
+
+    Font Styles: Mono, Propo, Regular
+    Website Help Request
+
+Previous 30 Days
+
+    User's Request: Summarize Conversation Assistant's Response: Capture Nature Briefly Title: Summarize Nature Briefly
+
+Upgrade planGet GPT-4, DALL·E, and more
+ChatGPT 3.5
+ChatGPT
+
+Hi, I’m ChatGPT. Every day I talk to many different people and help them with their projects. I don’t think we’ve met before, but I’m excited that you’re here. What’s up?
+User
+Hey
+ChatGPT
+
+Hey! What's on your mind today?
+User
+what is gatsby and mdbook
+ChatGPT
+
+Gatsby and mdBook are two different tools used in web development and documentation creation, respectively.
+
+    Gatsby: Gatsby is a modern web development framework for building fast websites and web applications using React. It's based on the Jamstack architecture, which stands for JavaScript, APIs, and Markup. Gatsby allows developers to build websites using React components, but it pre-renders pages into static HTML at build time, resulting in fast-loading websites. It also integrates seamlessly with various data sources, including CMSs like WordPress or Drupal, as well as markdown files or APIs. Overall, Gatsby is popular for its performance, flexibility, and developer experience.
+
+    mdBook: mdBook is a command-line tool for creating documentation websites from markdown files. It's particularly useful for creating technical documentation, manuals, or guides. With mdBook, you can write documentation content in markdown format and then generate a static HTML website with navigation, search functionality, and customizable themes. mdBook simplifies the process of maintaining documentation, as it allows authors to focus on writing content in a familiar markdown syntax while handling the website generation and formatting automatically.
+
+In summary, Gatsby is a web development framework for building fast websites and applications using React, while mdBook is a tool for creating documentation websites from markdown files.
+User
+next.js 
+ChatGPT
+
+Next.js is another popular web development framework, similar to Gatsby, but with some differences in approach and focus.
+
+    Server-Side Rendering (SSR) and Client-Side Rendering (CSR): One of the key features of Next.js is its support for both server-side rendering (SSR) and client-side rendering (CSR) out of the box. This means you can choose to render pages on the server for faster initial loading and better SEO, or opt for client-side rendering for dynamic and interactive experiences.
+
+    Hybrid Approach: Next.js offers a hybrid approach to rendering, allowing you to combine SSR and CSR within the same application. This flexibility enables developers to choose the rendering method that best suits each specific page or component.
+
+    Automatic Code Splitting: Next.js automatically splits code bundles, ensuring that only the necessary code is sent to the client, which improves performance and reduces initial load times.
+
+    File-Based Routing: Next.js uses a file-based routing system, where each page corresponds to a file in the project directory structure. This makes it easy to create and organize pages, as well as handle dynamic routes using file-based conventions.
+
+    API Routes: Next.js provides built-in support for creating API routes within the same project. This allows you to build backend functionality alongside your frontend code, making it easier to develop full-stack applications.
+
+    Static Site Generation (SSG): In addition to SSR and CSR, Next.js also supports static site generation (SSG), where pages are pre-built at build time and served as static HTML files. This can further improve performance and reduce server load, especially for content that doesn't change frequently.
+
+Overall, Next.js is a powerful and versatile framework for building modern web applications, offering a range of features for server-side rendering, client-side rendering, and static site generation. It's widely used in the React community and has a strong ecosystem of plugins and integrations.
+User
+next.js vs js
+ChatGPT
+
+It seems like you're asking about the comparison between Next.js and plain JavaScript, but it's a bit like comparing apples to oranges. Let me explain:
+
+    Next.js: Next.js is a web development framework built on top of React. It provides a set of tools and conventions for building modern web applications, including features like server-side rendering (SSR), client-side rendering (CSR), automatic code splitting, file-based routing, API routes, and static site generation (SSG). Next.js abstracts away many of the complexities of web development, making it easier and faster to build complex web applications with React.
+
+    JavaScript (JS): JavaScript is a programming language used for building dynamic and interactive websites. It's the language of the web and is used for adding interactivity, manipulating the DOM, handling events, making AJAX requests, and much more. While JavaScript itself is powerful, it's typically used in conjunction with libraries and frameworks like React, Angular, or Vue.js to build more complex web applications.
+
+In summary, Next.js is a framework for building web applications using React, while JavaScript is the programming language used to write the logic and functionality of those applications. Next.js utilizes JavaScript (specifically, React) under the hood, so you'll be writing JavaScript code regardless, but Next.js provides additional tools and abstractions to streamline the development process and add features like SSR, CSR, and SSG.
+User
+can I make a site using html, css, and js and later add next.js?
+ChatGPT
+
+Absolutely! You can start building your website using HTML, CSS, and JavaScript, and later integrate Next.js into your project if you find it beneficial.
+
+Here's how you can approach it:
+
+    Start with HTML, CSS, and JavaScript: Begin by creating the structure and design of your website using HTML for markup, CSS for styling, and JavaScript for interactivity. This will allow you to create the basic functionality and appearance of your site.
+
+    Evaluate the Need for Next.js: Once you have your website up and running, you can evaluate whether Next.js would be beneficial for your project. Consider factors such as SEO requirements, page load performance, dynamic routing needs, and the complexity of your application.
+
+    Integrate Next.js: If you decide to use Next.js, you can gradually integrate it into your project. Next.js allows you to progressively adopt its features, so you can start by adding server-side rendering (SSR) or static site generation (SSG) to specific pages or components. You can also leverage Next.js for client-side rendering (CSR) alongside your existing JavaScript code.
+
+    Refactor and Enhance: As you integrate Next.js into your project, you may need to refactor some of your existing code to work within the Next.js framework. Additionally, you can take advantage of Next.js features like file-based routing, API routes, and automatic code splitting to enhance the functionality and performance of your website.
+
+By following these steps, you can transition from a traditional HTML, CSS, and JavaScript website to a Next.js-powered web application, leveraging the benefits of server-side rendering, client-side rendering, and other advanced features provided by Next.js.
+User
+will there be a issue or the transistion will be seamless?
+ChatGPT
+
+The transition from a traditional HTML, CSS, and JavaScript website to a Next.js-powered site can be relatively seamless if approached thoughtfully. However, there are a few considerations to keep in mind to ensure a smooth transition:
+
+    File Structure: Next.js has its own file-based routing system. You'll need to organize your existing code to fit into Next.js's conventions. This may involve moving files around and renaming them to match Next.js's routing expectations.
+
+    Component Integration: If you've built reusable components in your existing JavaScript code, you can still use them within Next.js. However, you may need to adjust them to work within the Next.js framework, especially if they rely on global variables or browser-specific APIs.
+
+    Server-Side Rendering (SSR) and Client-Side Rendering (CSR): Decide which pages or components of your site would benefit most from SSR, CSR, or static site generation (SSG). You can gradually introduce these features into your Next.js project as needed.
+
+    Data Fetching: If your existing site relies on client-side data fetching with JavaScript, you may need to adjust how data is fetched in a Next.js environment. Next.js provides various methods for fetching data, including server-side rendering, client-side rendering, and static site generation.
+
+    Testing and Debugging: As with any migration, thorough testing is crucial to ensure that everything works as expected. Test your site extensively during and after the transition to identify and fix any issues that may arise.
+
+Overall, while there may be some initial adjustments required during the transition, Next.js provides a robust framework with comprehensive documentation and community support. With careful planning and execution, you can seamlessly integrate Next.js into your existing website and take advantage of its powerful features.
+User
+should I go for next.js as the programming language or js?
+ChatGPT
+
+Next.js is not a programming language itself; it's a framework for building web applications using JavaScript (specifically, React). Therefore, you'll still be using JavaScript as the programming language whether you choose to build your application with Next.js or not.
+
+Here's how you can think about it:
+
+    JavaScript (JS): If you're comfortable with plain JavaScript and want complete control over your project's architecture and implementation details, you can certainly build your website or web application using JavaScript without any additional frameworks or libraries. This approach gives you flexibility but may require more manual setup and configuration for features like server-side rendering, routing, and data fetching.
+
+    Next.js: If you're building a modern web application and want to leverage the benefits of server-side rendering, client-side rendering, static site generation, and other advanced features, Next.js can be a great choice. Next.js abstracts away many of the complexities of web development and provides a structured environment for building React applications with features like file-based routing, API routes, and automatic code splitting.
+
+Ultimately, the choice between using plain JavaScript or Next.js depends on your specific project requirements, your familiarity with the tools, and your preference for the development workflow. If you're already comfortable with React and want to streamline your development process, Next.js can be a powerful tool to consider. However, if you prefer more control over your project's architecture or are working on a smaller-scale project, sticking with plain JavaScript may be sufficient.
+User
+I am building a website, which may turn into a webapp
+ChatGPT
+
+If you're building a website that may evolve into a web application over time, it's important to choose the right tools and technologies that will support your project's growth and scalability. Here's how you can approach it:
+
+    Start with the Basics: Begin by building the core functionality of your website using HTML, CSS, and JavaScript. Focus on creating a clean and user-friendly interface that effectively communicates your content and serves the needs of your audience.
+
+    Consider Frameworks: As your project evolves, you may find that using a JavaScript framework like React, Vue.js, or Angular can streamline your development process and provide additional features for building interactive user interfaces. These frameworks are well-suited for building web applications with dynamic content and rich user experiences.
+
+    Evaluate Next.js: If you anticipate the need for features like server-side rendering, client-side rendering, or static site generation, consider using Next.js. Next.js is built on top of React and provides a powerful framework for building modern web applications with features like file-based routing, API routes, and automatic code splitting. It's particularly well-suited for projects that may transition from a static website to a dynamic web application over time.
+
+    Plan for Scalability: As you design and develop your website or web application, keep scalability in mind. Choose tools and technologies that will allow your project to grow and adapt as your user base expands and your requirements change. This may involve designing a modular architecture, optimizing performance, and implementing best practices for code organization and maintenance.
+
+    Stay Agile: Finally, remain agile and responsive to feedback as you iterate on your project. Continuously test and refine your website or web application based on user feedback and analytics data, and be prepared to make adjustments as needed to ensure a positive user experience and achieve your project goals.
+
+By following these steps and choosing the right tools and technologies for your project, you can build a website that has the flexibility to evolve into a web application as your needs evolve. Whether you start with plain HTML, CSS, and JavaScript or opt for a framework like Next.js, the key is to prioritize user experience, scalability, and adaptability throughout the development process.
+User
+What's the pros and cons with the approached
+ChatGPT
+
+Certainly! Let's break down the pros and cons of each approach:
+
+Starting with plain HTML, CSS, and JavaScript:
+
+Pros:
+
+    Simplicity: Starting with plain HTML, CSS, and JavaScript allows you to keep things simple and lightweight, especially for smaller projects or static websites.
+    Flexibility: You have full control over the architecture and implementation details of your website, allowing you to customize every aspect according to your needs.
+    Learning Experience: Building a website from scratch using core web technologies is a great learning experience, as it helps you understand how the web works at a fundamental level.
+
+Cons:
+
+    Limited Functionality: Building complex features like server-side rendering, dynamic routing, and state management from scratch can be time-consuming and challenging.
+    Maintenance Overhead: As your project grows, maintaining and updating the codebase can become more cumbersome, especially without the help of frameworks or libraries to streamline development.
+    Scalability Concerns: Without built-in features for scalability, performance optimization, and code organization, scaling your project may require significant refactoring and restructuring.
+
+Using Next.js for building a website or web application:
+
+Pros:
+
+    Productivity: Next.js provides a structured environment and built-in features like server-side rendering, static site generation, and file-based routing, which can significantly accelerate the development process.
+    Performance: Features like server-side rendering and automatic code splitting help improve performance and page load times, resulting in a better user experience.
+    Scalability: Next.js is designed with scalability in mind, making it easier to scale your project as it grows in complexity and user base.
+    Community and Ecosystem: Next.js has a large and active community, as well as a rich ecosystem of plugins, libraries, and resources that can help you build and maintain your project more effectively.
+
+Cons:
+
+    Learning Curve: Next.js introduces its own set of concepts and conventions, which may require some time to learn and adapt to, especially if you're new to React or server-side rendering.
+    Framework Lock-In: Using Next.js may lock you into its specific architecture and conventions, limiting flexibility compared to building from scratch with plain HTML, CSS, and JavaScript.
+    Complexity Overhead: While Next.js simplifies many aspects of web development, it also adds complexity in terms of configuration and project structure, which may be overkill for simpler projects.
+
+In summary, the choice between starting with plain HTML, CSS, and JavaScript or using Next.js depends on factors such as project requirements, timeline, familiarity with the tools, and long-term goals. Starting from scratch offers simplicity and flexibility but may require more effort and time to build advanced features, while Next.js can accelerate development and provide built-in features but comes with a learning curve and potential framework lock-in. Consider your specific needs and preferences when making the decision.
+User
+am a newbiew
+ChatGPT
+
+As a beginner, both approaches have their merits, but starting with a plain HTML, CSS, and JavaScript project might be more beneficial initially. Here's why:
+
+    Simplicity: Building a basic website with plain HTML, CSS, and JavaScript allows you to focus on learning the fundamentals without the added complexity of frameworks or libraries. You'll gain a deeper understanding of how web technologies work together.
+
+    Foundational Knowledge: Starting from scratch helps you grasp core concepts like HTML semantics, CSS styling, and JavaScript interactivity. These foundational skills will serve as a solid base as you progress in your web development journey.
+
+    Hands-On Experience: Building a website from the ground up gives you hands-on experience with coding, troubleshooting, and problem-solving. You'll encounter common challenges and learn how to overcome them, which is invaluable for a beginner.
+
+Once you're comfortable with the basics and ready to explore more advanced concepts, you can then consider transitioning to a framework like Next.js. At that point, you'll have a better understanding of your project's requirements and how frameworks can help streamline development.
+
+Remember, learning to code is a journey, and it's okay to start small and gradually work your way up to more complex projects. Take your time, practice regularly, and don't hesitate to seek help from online resources, tutorials, and communities like Stack Overflow or Reddit's r/learnprogramming. Happy coding!
+ChatGPT can make mistakes. Check important info.
+
+ChatGPT
+-->
 </body>
 </html>
