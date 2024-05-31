@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Your Website</title>
-<link rel="stylesheet" type="text/css" href="Styles/Main.css">
+<link rel="stylesheet" type="text/css" href="Modules/Styles/Main.css">
 <style>
   body {
     margin: 0;
@@ -85,35 +85,31 @@
 </style>
 </head>
 <body>
-<div class="top-bar">
-  <a href="index.html"><img src="Resources/Logo.jpg" alt="Home" class="logo-icon"></a>
-  <div class="menu-icon" id="menu-icon">
-    <img src="Resources\Clawths.png" alt="Menu">
-  </div>
-  <div class="dropdown-menu" id="dropdown-menu">
-    <ul>
-      <li><a href="Products/products.html">Products</a></li>
-      <li><a href="Contact/contact.html">Contact us</a></li>
-      <li><a href="About/about.html">About <img src="Resources/Clawths.png"></a></li>
-    </ul>
-  </div>
-</div>
-<div class="black-box">
-  <div class="pane-container">
-        <div class="pane">
-      <img src="Resources/Logo.jpg" alt="Image 2">
+  <div class="top-bar">
+    <a href="index.html"><img src="Resources/Logo.jpg" alt="Home" class="logo-icon"></a>
+    <div class="menu-icon" id="menu-icon">
+      <img src="Resources\Clawths.png" alt="Menu" onclick="toggleDropdown()">
     </div>
-  <div class="pane">
-    <img src="Resources/17.jpeg" alt="Image 3">
+    <div class="dropdown-menu" id="dropdown-menu">
+      <ul>
+        <li><a href="Products/products.html">Products</a></li>
+        <li><a href="Contact/contact.html">Contact us</a></li>
+        <li><a href="About/about.html">About <img src="Resources/Clawths.png"></a></li>
+      </ul>
+    </div>
   </div>
-  </div>
-  <div class="navigation-dots">
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-  </div>
-</div>
-
+  
+  <script>
+    function toggleDropdown() {
+        var dropdownMenu = document.getElementById("dropdown-menu");
+        if (dropdownMenu.style.display === "none" || dropdownMenu.style.display === "") {
+            dropdownMenu.style.display = "block";
+        } else {
+            dropdownMenu.style.display = "none";
+        }
+    }
+  </script>
+  
 <!--<div class="image-grid">
   <div class="image-item">
     <img src="Resources/Clawths.png" alt="Image 1">
@@ -126,79 +122,6 @@
 </div>
 <!-- Rest of your website content goes here -->
 <!-- <div id="countdown"></div> -->
-<script>
-  var targetDate = new Date(2024, 7,17,0,0,0);
-  function updateCountdown() {
-    var currentDate = new Date();
-    var timeDifference = targetDate - currentDate;
-    
-    // Calculate remaining time
-    var days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-    var hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
-    
-    // Format the time
-    var countdownText = "Countdown: " + days + "d " + hours + "h " + minutes + "m " + seconds + "s";
-    
-    // Update the countdown display
-    document.getElementById("countdown").innerText = countdownText;
-  }
-  
-  // Update countdown every second
-  setInterval(updateCountdown, 1000);
-  
-  // Initial call to update countdown
-  updateCountdown();
-  document.addEventListener("DOMContentLoaded", function() {
-    var menuIcon = document.getElementById("menu-icon");
-    var dropdownMenu = document.getElementById("dropdown-menu");
-
-    menuIcon.addEventListener("click", function() {
-      dropdownMenu.classList.toggle("show");
-    });
-
-    // Close dropdown menu when clicking outside of it
-    document.addEventListener("click", function(event) {
-      if (!dropdownMenu.contains(event.target) && !menuIcon.contains(event.target)) {
-        dropdownMenu.classList.remove("show");
-      }
-    });
-  });
-
-// Sliding panes functionality with navigation dots
-var paneContainer = document.querySelector('.pane-container');
-var dots = document.querySelectorAll('.dot');
-var totalPanes = document.querySelectorAll('.pane').length;
-var currentIndex = 0;
-
-function slideTo(index) {
-  currentIndex = index;
-  var percentage = -100 * currentIndex + '%';
-  paneContainer.style.transform = 'translateX(' + percentage + ')';
-  updateActiveDot();
-}
-
-function updateActiveDot() {
-  dots.forEach(function(dot, index) {
-    dot.classList.toggle('active', index === currentIndex);
-  });
-}
-
-// Click event listener for dots
-dots.forEach(function(dot, index) {
-  dot.addEventListener('click', function() {
-    slideTo(index);
-  });
-});
-
-// Automatically slide panes every 5 seconds
-setInterval(function() {
-  currentIndex = (currentIndex + 1) % totalPanes;
-  slideTo(currentIndex);
-}, 5000);
-
-</script>
 <!--
 Chat history
 ChatGPT
