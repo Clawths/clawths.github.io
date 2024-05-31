@@ -1,0 +1,60 @@
+body {
+    margin: 0;
+    padding: 0;
+    padding-top: 70px;
+    background-color: #b81010;
+  }
+  .top-bar {
+    background-color: black;
+    height: 70px; /* Adjust height as needed */
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+  }
+  .logo-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 200px;
+    max-height: 70px;
+  }
+  .menu-icon {
+    background-color: transparent;
+    position: absolute;
+    margin: 10px;
+  }
+  .menu-icon img {
+    height: auto;
+    width: 50px;
+    cursor: pointer;
+  }
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 5px;
+    background-color: black;
+    color: #b81010;
+    border-radius: 0 0 10px 10px;
+  }
+  .dropdown-menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 20px;
+    text-align: center; /* Center-align the text */
+  }
+  .dropdown-menu ul li {
+    padding: 5px 5px;
+  }
+
+  .dropdown-menu ul li a {
+    color: #b81010; /* Set link color */
+    text-decoration: none; /* Remove underline */
+  }
+  .dropdown-menu ul li img {
+    width: 15px; /* Set the width of the image */
+    height: auto; /* Maintain aspect ratio */
+  }
